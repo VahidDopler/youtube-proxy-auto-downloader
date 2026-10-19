@@ -1,0 +1,43 @@
+<CodeBlock language="xml" editable>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101827"/>
+      <stop offset="100%" stop-color="#172d3a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="28" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#9ca3af" stroke-width="1">
+    <path d="M0 80H1200 M0 160H1200 M0 240H1200 M0 320H1200 M0 400H1200 M0 480H1200 M0 560H1200"/>
+    <path d="M80 0V630 M160 0V630 M240 0V630 M320 0V630 M400 0V630 M480 0V630 M560 0V630 M640 0V630 M720 0V630 M800 0V630 M880 0V630 M960 0V630 M1040 0V630 M1120 0V630"/>
+  </g>
+  <rect x="72" y="72" width="1056" height="486" rx="24" fill="#0b1220" stroke="#334155" stroke-width="2"/>
+  <circle cx="108" cy="108" r="7" fill="#fb7185"/>
+  <circle cx="132" cy="108" r="7" fill="#fbbf24"/>
+  <circle cx="156" cy="108" r="7" fill="#34d399"/>
+  <text x="190" y="115" font-family="Consolas, monospace" font-size="18" fill="#94a3b8">proxy-terminal.exe</text>
+  <rect x="112" y="160" width="130" height="96" rx="16" fill="#142638" stroke="#38bdf8" stroke-width="2"/>
+  <path d="M151 188 L151 228 L188 208 Z" fill="#38bdf8"/>
+  <text x="177" y="281" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#cbd5e1">YouTube</text>
+  <path d="M260 208 H330" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M318 196 L332 208 L318 220" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="350" y="160" width="220" height="96" rx="16" fill="#142638" stroke="#34d399" stroke-width="2"/>
+  <text x="460" y="198" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#34d399">SOCKS5</text>
+  <text x="460" y="228" text-anchor="middle" font-family="Consolas, monospace" font-size="15" fill="#cbd5e1">127.0.0.1:PORT</text>
+  <path d="M588 208 H654" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M642 196 L656 208 L642 220" fill="none" stroke="#34d399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="676" y="160" width="340" height="96" rx="16" fill="#142638" stroke="#475569" stroke-width="2"/>
+  <text x="846" y="198" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#e2e8f0">yt-dlp + FFmpeg</text>
+  <text x="846" y="228" text-anchor="middle" font-family="Consolas, monospace" font-size="15" fill="#94a3b8">MP4 · up to 720p</text>
+  <text x="112" y="354" font-family="Consolas, monospace" font-size="19" fill="#34d399">$ detect-proxy --test-routes</text>
+  <text x="112" y="390" font-family="Consolas, monospace" font-size="19" fill="#38bdf8">$ select fastest or choose manually</text>
+  <text x="112" y="426" font-family="Consolas, monospace" font-size="19" fill="#cbd5e1">$ download --fallback --max-res 720p</text>
+  <rect x="112" y="468" width="360" height="5" rx="2" fill="url(#accent)"/>
+  <text x="112" y="522" font-family="Arial, sans-serif" font-size="31" font-weight="700" fill="#f8fafc">YouTube Proxy Auto Downloader</text>
+  <text x="112" y="550" font-family="Arial, sans-serif" font-size="16" fill="#94a3b8">Windows · Aether / Xray · Automated proxy selection</text>
+</svg>
+</CodeBlock>
