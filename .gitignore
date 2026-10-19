@@ -1,0 +1,23 @@
+
+# Authentication secrets
+cookies.txt
+cookies*.txt
+*.cookies
+
+# Downloaded media
+*.mp4
+*.mkv
+*.webm
+*.m4a
+*.mp3
+*.part
+*.ytdl
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Windows
+Thumbs.db
+Desktop.ini
