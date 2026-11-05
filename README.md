@@ -1,26 +1,29 @@
 # YouTube Proxy Auto Downloader
 
-A small Windows command-line helper that routes yt-dlp downloads through a local SOCKS5 proxy exposed by Aether/WhiteAether or Xray. It checks the detected routes, lets you select one (or automatically chooses the fastest route), then passes a video URL to yt-dlp.
+A small Windows command-line helper that routes yt-dlp downloads through a local SOCKS5 proxy exposed by Aether/WhiteAether or Xray, or through your normal direct internet connection. It tests the available routes, lets you select one (or automatically chooses the fastest route), then passes a video URL to yt-dlp.
 
-This repository contains a PowerShell script and a batch launcher. It is not a browser app or a proxy client: you need to install yt-dlp, FFmpeg, Node.js, and run your own supported proxy client.
+This repository contains a PowerShell script and a batch launcher. It is not a browser app or a proxy client: you need to install yt-dlp, FFmpeg, Node.js, and run your own supported proxy client if you want proxy routing.
 
 ## What it does
 
 - Looks for running `aether.exe` and `xray.exe` processes and enumerates their listening TCP ports.
-- Tests each discovered port by making a short request to YouTube through `socks5h://127.0.0.1:<port>`.
+- Always tests a direct connection to YouTube as well, so a proxy is optional.
+- Tests each discovered route with a short request to YouTube through either `socks5h://127.0.0.1:<port>` or the direct network connection.
 - Keeps the fastest working port per proxy application.
-- If both Aether and Xray have a working route, asks you to choose or lets you select the fastest route.
+- If multiple routes work, asks you to choose or lets you select the fastest route.
 - Prompts for a YouTube video URL and starts yt-dlp through the selected route.
-- If the download fails and another proxy application's route passed the test, retries once through that route.
+- If the download fails, retries once through the fastest different working route, if one is available.
+- After each attempt, asks whether you want to download another video. It checks routes again each time.
 - Sorts formats to prefer MP4 video and M4A audio up to 720p, and asks FFmpeg to merge separate streams into MP4 when available.
 - Adds Node.js as yt-dlp's JavaScript runtime and automatically uses a local `cookies.txt` file when one exists beside the script.
 
-The proxy check only confirms that a route can reach YouTube at that moment. It cannot guarantee the full download will succeed. The script treats every listening TCP port owned by the detected process as a SOCKS5 port, so configure the proxy application to expose a SOCKS5 listener.
+The route check only confirms that a connection can reach YouTube at that moment. It cannot guarantee the full download will succeed. The script treats every listening TCP port owned by the detected process as a SOCKS5 port, so configure the proxy application to expose a SOCKS5 listener. If no supported proxy listener is found, the script simply tests and offers direct internet access.
 
 ## Requirements
 
 - Windows 10 or 11 with PowerShell
-- A running Aether/WhiteAether or Xray client exposing a local SOCKS5 listener
+- Internet connection; a proxy is optional
+- A running Aether/WhiteAether or Xray client exposing a local SOCKS5 listener, if you want to use a proxy route
 - [yt-dlp for Windows](https://github.com/yt-dlp/yt-dlp/releases/latest)
 - [FFmpeg](https://ffmpeg.org/download.html) (including `ffmpeg.exe` and `ffprobe.exe`) for merging separate video/audio streams
 - [Node.js](https://nodejs.org/) for YouTube's JavaScript challenge support
@@ -34,9 +37,10 @@ The proxy check only confirms that a route can reach YouTube at that moment. It 
    ```
 2. Download the Windows `yt-dlp.exe` release and put it in the same folder as `youtube-downloader.bat` and `proxy-downloader.ps1`.
 3. Install FFmpeg and Node.js. Make sure `ffmpeg.exe`, `ffprobe.exe`, and `node.exe` are on your Windows `PATH`. Alternatively, put FFmpeg's executables in the same folder as `yt-dlp.exe`.
-4. Start Aether/WhiteAether or Xray and confirm its local SOCKS5 listener is enabled.
+4. If you want proxy routing, start Aether/WhiteAether or Xray and confirm its local SOCKS5 listener is enabled. You can skip this when using your normal internet connection.
 5. Double-click `youtube-downloader.bat`. If Windows asks, allow the script to run. The launcher invokes PowerShell with `-ExecutionPolicy Bypass` for this script only; it does not change the machine-wide execution policy.
-6. Choose a listed route or enter `A` for automatic fastest-route selection, then paste the video URL.
+6. Select a working route (or enter `A` for the fastest tested route), then paste the video URL.
+7. After the attempt, answer `Y` to download another video or `N` to exit.
 
 Downloads are saved to yt-dlp's current default location (normally the folder from which the launcher is run).
 
@@ -82,9 +86,10 @@ The script uses yt-dlp's format sorting preference `res:720,ext:mp4:m4a`, then r
 | Problem | Things to check |
 | --- | --- |
 | “yt-dlp.exe was not found” | Put `yt-dlp.exe` beside the batch and PowerShell files. |
-| No proxy listeners detected | Start Aether/Xray; confirm the process is named `aether.exe` or `xray.exe` and has a TCP listener. |
-| Proxy detected but test fails | Confirm that listener is SOCKS5, and check the proxy's route, DNS, firewall, and logs. |
-| Download fails after a successful test | A short test does not test a full transfer. Check yt-dlp's error output and proxy logs; choose the alternate route if offered. |
+| No proxy listeners detected | This is okay for direct access. The script tests a direct connection automatically. |
+| Direct route test fails | Check that Windows has internet access and that YouTube is reachable from your current network. |
+| Proxy detected but test fails | Confirm that listener is SOCKS5, and check the proxy's route, DNS, firewall, and logs. A working direct route can still be selected. |
+| Download fails after a successful test | A short test does not test a full transfer. Check yt-dlp's error output and proxy logs; select another working route if offered. |
 | FFmpeg merge error | Install a current FFmpeg build and put its `bin` folder on `PATH`, or put `ffmpeg.exe` and `ffprobe.exe` beside `yt-dlp.exe`. |
 | JavaScript challenge or format errors | Update yt-dlp and make sure Node.js is available on `PATH`. |
 | Login-required or account access error | Confirm the account can view the content, then export a fresh YouTube cookie file. Keep the browser and downloader on the same network/proxy route when possible. |
